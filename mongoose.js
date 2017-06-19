@@ -71,22 +71,24 @@ function savePerson(json, callback) {
   person.save(callback);
 }
 
-function findPersonByName(name,callback) {
+function findPersonByName(name, callback) {
   // Person.findOne({ 'name': name }, 'name age sex', function (err, person) {
   //   if (err) return 'not found';
   //   console.log('%s %s is a %s.', person.name, person.age, person.sex);
   //   return person.age;
   // })
-  Person.findOne({ 'name': name }, 'name age sex',callback);
-    
-}
-
-function updatePersonByName(name, json) {
+  Person.findOne({ 'name': name }, 'name age sex', callback);
 
 }
 
-function deletePersonByName(name) {
+function updatePersonByName(name, json, callback) {
+  var q = Person.where({ 'name': name });
+  q.update({ age: json.age, sex: json.sex }, callback);
+}
 
+function deletePersonByName(name,callback) {
+  var q = Person.where({ 'name': name });
+  q.deleteOne({ 'name': name }, callback);
 }
 
 exports.savePerson = savePerson;

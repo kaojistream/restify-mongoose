@@ -22,17 +22,34 @@ function route(req, res) {
       // res.send('create succeed');
       break;
     case 'update':
-      res.send('update succeed');
+      var json = { age: params.age, sex: params.sex };
+      db.updatePersonByName(params.name, json, function (err, result) {
+        if (err) return res.send('update failed');
+        res.send('update succeed');
+      });
+      // res.send('update succeed');
       break;
     case 'find':
-      db.findPersonByName('kaoji', function (err, person) {
-        if (err) return res.send('not found');
-        console.log('%s %s is a %s.', person.name, person.age, person.sex);
-        return res.send('find succeed:' + person.name + person.age + person.sex);
+      db.findPersonByName(params.name, function (err, person) {
+        if (err) {
+          return res.send('not found');
+        }
+        if (person != null) {
+          console.log('%s %s is a %s.', person.name, person.age, person.sex);
+          return res.send('find succeed:' + person.name + person.age + person.sex);
+        } else {
+          return res.send('not found');
+        }
       });
       break;
     case 'delete':
-      res.send('delete succeed');
+      db.deletePersonByName(params.name, function (err, result) {
+        if (err) {
+          return res.send('delete failed');
+        }
+        return res.send('delete succeed');
+      })
+      // res.send('delete succeed');
       break;
     default:
       res.send(404, 'not exist');
