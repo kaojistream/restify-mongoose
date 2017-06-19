@@ -13,15 +13,15 @@ function start(route) {
 
   function onRequest(req, res, next) {
     var params = req.params;
-    console.log("Request for " + params.name + " received.");
+    console.log("Request for " + params._name + " received.");
     route(req, res);
     // res.send(params);
     // res.send({'a':Number('1')});
     return next();
   }
 
-  server.get('/web/:name', onRequest);
-  server.post('/web/:name', onRequest);
+  server.get('/web/:_name', onRequest);
+  server.post('/web/:_name', onRequest);
 
   server.listen(8080, function () {
     console.log('%s listening at %s', server.name, server.url);
